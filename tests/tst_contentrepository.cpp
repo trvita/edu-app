@@ -9,28 +9,29 @@ class TestContentRepository : public QObject
 private slots:
     void hasThreeModules()
     {
-        ContentRepository repo;
+        const ContentRepository repo;
         QCOMPARE(repo.moduleTitles().size(), 3);
     }
 
     void everyModuleHasLessons()
     {
-        ContentRepository repo;
-        for (int m = 0; m < repo.moduleTitles().size(); ++m)
+        const ContentRepository repo;
+        for (int m = 0; m < repo.moduleTitles().size(); ++m) {
             QVERIFY(!repo.lessonTitles(m).isEmpty());
+        }
     }
 
     void hasNextLessonStopsAtLastLesson()
     {
-        ContentRepository repo;
-        const int last = repo.lessonTitles(0).size() - 1;
+        const ContentRepository repo;
+        const auto last = static_cast<int>(repo.lessonTitles(0).size()) - 1;
         QVERIFY(repo.hasNextLesson(0, 0));
         QVERIFY(!repo.hasNextLesson(0, last));
     }
 
     void invalidIndicesReturnEmptyValues()
     {
-        ContentRepository repo;
+        const ContentRepository repo;
         QVERIFY(repo.moduleTitle(-1).isEmpty());
         QVERIFY(repo.moduleTitle(99).isEmpty());
         QVERIFY(repo.lessonTitles(99).isEmpty());

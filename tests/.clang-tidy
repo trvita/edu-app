@@ -1,0 +1,4 @@
+# Qt Test runs test cases as slots on the test object, so they cannot be static.
+---
+InheritParentConfig: true
+Checks: -readability-convert-member-functions-to-static

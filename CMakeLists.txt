@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.22)
 
 project(EduApp VERSION 0.1 LANGUAGES CXX)
 
+# compile_commands.json for clang-tidy and IDE code navigation.
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickControls2)
 
 qt_standard_project_setup(REQUIRES 6.5)

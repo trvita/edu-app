@@ -33,4 +33,15 @@ cmake --build build-host --target tst_contentrepository
 ctest --test-dir build-host --output-on-failure
 ```
 
+## C++ code style
+
+`.clang-format` (Qt-like style) and `.clang-tidy` (static analysis) apply to `src/` and `tests/`.
+Use the LLVM 18 tools from the NDK; the host build provides `compile_commands.json`.
+
+```bash
+LLVM=~/Android/Sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin
+$LLVM/clang-format -i src/*.cpp src/*.h tests/*.cpp       # format
+$LLVM/clang-tidy -p build-host src/*.cpp tests/*.cpp      # analyze
+```
+
 `cmake` here is CMake 4.4.4 (`~/Downloads/packages/cmake-4.4.4-linux-x86_64/bin`).
