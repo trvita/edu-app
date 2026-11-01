@@ -1,7 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import EduApp
 
+// Scrollable lesson text with a "Next" button after it.
 BasePage {
     id: page
 
@@ -20,19 +22,19 @@ BasePage {
         ColumnLayout {
             id: column
             width: flick.width
-            spacing: 16
+            spacing: Theme.spacing
 
-            Label {
+            AppText {
                 id: body
                 wrapMode: Text.WordWrap
                 Layout.fillWidth: true
-                Layout.margins: 16
+                Layout.margins: Theme.margin
             }
 
-            Button {
-                text: "Next"
+            PrimaryButton {
+                text: qsTr("Next")
                 Layout.alignment: Qt.AlignHCenter
-                Layout.bottomMargin: 16
+                Layout.bottomMargin: Theme.margin
                 onClicked: page.nextRequested()
             }
         }

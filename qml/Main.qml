@@ -2,31 +2,32 @@ import QtQuick
 import QtQuick.Controls
 import EduApp
 
+// Navigation only: connects page signals to ContentRepository and page changes.
+// No layout or styling here; that belongs in pages/, components/ and style/.
 ApplicationWindow {
     width: 360
     height: 640
     visible: true
-    title: "EduApp"
+    title: qsTr("EduApp")
 
-            Shortcut {
+    function goBack() {
+        stack.pop()
+    }
+
+    // Android back button/gesture arrives as the Back key.
+    // On the start page the shortcut is disabled, so the system closes the app as usual.
+    Shortcut {
         sequences: ["Back", "Esc"]
         enabled: stack.depth > 1
-        onActivated: stack.pop()
+        onActivated: goBack()
     }
 
     StackView {
         id: stack
         anchors.fill: parent
 
-        initialItem: BasePage {
-            title: "EduApp"
-            showBack: false
-
-            Button {
-                anchors.centerIn: parent
-                text: "Start learning!"
-                onClicked: stack.push(modulesPage)
-            }
+        initialItem: StartPage {
+            onStartRequested: stack.push(modulesPage)
         }
     }
 
@@ -34,8 +35,9 @@ ApplicationWindow {
         id: modulesPage
 
         ListPage {
-            title: "Modules"
-            model: Content.modules
+            title: qsTr("Modules")
+            model: ContentRepository.moduleTitles
+            onBackRequested: goBack()
             onItemChosen: index => stack.push(lessonsPage, { moduleIndex: index })
         }
     }
@@ -46,8 +48,9 @@ ApplicationWindow {
         ListPage {
             property int moduleIndex
 
-            title: Content.modules[moduleIndex].title
-            model: Content.modules[moduleIndex].lessons
+            title: ContentRepository.moduleTitle(moduleIndex)
+            model: ContentRepository.lessonTitles(moduleIndex)
+            onBackRequested: goBack()
             onItemChosen: index => stack.push(lessonPage, { moduleIndex: moduleIndex, lessonIndex: index })
         }
     }
@@ -58,16 +61,18 @@ ApplicationWindow {
         LessonPage {
             property int moduleIndex
             property int lessonIndex
-            readonly property var lessons: Content.modules[moduleIndex].lessons
 
-            title: lessons[lessonIndex].title
-            text: lessons[lessonIndex].text
+            title: ContentRepository.lessonTitle(moduleIndex, lessonIndex)
+            text: ContentRepository.lessonText(moduleIndex, lessonIndex)
+            onBackRequested: goBack()
 
-                                    onNextRequested: {
-                if (lessonIndex + 1 < lessons.length)
+            // Next lesson replaces this one, so "back" still returns to the lesson list.
+            // After the last lesson, return to the lesson list.
+            onNextRequested: {
+                if (ContentRepository.hasNextLesson(moduleIndex, lessonIndex))
                     stack.replace(lessonPage, { moduleIndex: moduleIndex, lessonIndex: lessonIndex + 1 })
                 else
-                    stack.pop()
+                    goBack()
             }
         }
     }
