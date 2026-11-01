@@ -1,40 +1,76 @@
 #include "ContentRepository.h"
 
+#include <QDir>
+#include <QFile>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QLoggingCategory>
+
+#include <optional>
+
 namespace {
 
-constexpr int kModuleCount = 3;
-constexpr int kLessonsPerModule = 3;
+Q_LOGGING_CATEGORY(lcContent, "eduapp.content")
 
-QString placeholderText(int module, int lesson)
+const QString kManifestFileName = QStringLiteral("manifest.json");
+
+std::optional<QByteArray> readFile(const QString &path)
 {
-    const QString paragraph =
-        QStringLiteral("This is the text of lesson %1 in module %2. "
-                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "
-                       "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "
-                       "veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea "
-                       "commodo consequat.")
-            .arg(lesson)
-            .arg(module);
-
-    QStringList paragraphs;
-    for (int i = 0; i < 8; ++i) {
-        paragraphs << paragraph;
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qCWarning(lcContent) << "Cannot open" << path << ":" << file.errorString();
+        return std::nullopt;
     }
-    return paragraphs.join(QStringLiteral("\n\n"));
+    return file.readAll();
 }
 
 } // namespace
 
 ContentRepository::ContentRepository(QObject *parent)
+    : ContentRepository(kBundledContentRoot, parent)
+{ }
+
+ContentRepository::ContentRepository(const QString &contentRoot, QObject *parent)
     : QObject(parent)
 {
-    for (int m = 1; m <= kModuleCount; ++m) {
-        Module module{tr("Module %1").arg(m), {}};
-        for (int l = 1; l <= kLessonsPerModule; ++l) {
-            module.lessons.append({tr("Lesson %1").arg(l), placeholderText(m, l)});
+    load(contentRoot);
+}
+
+bool ContentRepository::load(const QString &contentRoot)
+{
+    m_modules.clear();
+
+    const QDir root(contentRoot);
+    const std::optional<QByteArray> manifestData = readFile(root.filePath(kManifestFileName));
+    if (!manifestData) {
+        return false;
+    }
+
+    QJsonParseError parseError{};
+    const QJsonDocument manifest = QJsonDocument::fromJson(*manifestData, &parseError);
+    if (!manifest.isObject()) {
+        qCWarning(lcContent) << "Invalid" << kManifestFileName << "in" << contentRoot << ":"
+                             << parseError.errorString();
+        return false;
+    }
+
+    const QJsonArray modules = manifest.object().value(QStringLiteral("modules")).toArray();
+    for (const auto &moduleValue : modules) {
+        const QJsonObject moduleObject = moduleValue.toObject();
+        Module module{moduleObject.value(QStringLiteral("title")).toString(), {}};
+
+        const QJsonArray lessons = moduleObject.value(QStringLiteral("lessons")).toArray();
+        for (const auto &lessonValue : lessons) {
+            const QJsonObject lessonObject = lessonValue.toObject();
+            const QString file = lessonObject.value(QStringLiteral("file")).toString();
+            const QString text =
+                QString::fromUtf8(readFile(root.filePath(file)).value_or(QByteArray()));
+            module.lessons.append({lessonObject.value(QStringLiteral("title")).toString(), text});
         }
         m_modules.append(module);
     }
+    return true;
 }
 
 QStringList ContentRepository::moduleTitles() const

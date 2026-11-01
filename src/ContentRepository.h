@@ -5,8 +5,8 @@
 #include <QStringList>
 #include <QtQml/qqmlregistration.h>
 
-// Read-only learning content: modules and their lessons.
-// Placeholder data for now; later loaded from content files.
+// Read-only learning content: modules and their lessons, loaded from a content folder
+// (manifest.json + Markdown lesson files, see content/README.md).
 // Invalid indices return empty values instead of failing.
 class ContentRepository : public QObject
 {
@@ -17,7 +17,15 @@ class ContentRepository : public QObject
     Q_PROPERTY(QStringList moduleTitles READ moduleTitles CONSTANT)
 
 public:
+    // Content bundled into the app's resources.
+    static inline const QString kBundledContentRoot = QStringLiteral(":/content");
+
     explicit ContentRepository(QObject *parent = nullptr);
+    explicit ContentRepository(const QString &contentRoot, QObject *parent = nullptr);
+
+    // Replaces the current content with the one in contentRoot. On a missing or invalid
+    // manifest the repository is left empty; a missing lesson file gives an empty text.
+    bool load(const QString &contentRoot);
 
     QStringList moduleTitles() const;
 

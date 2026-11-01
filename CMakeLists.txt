@@ -48,6 +48,18 @@ qt_add_resources(appEduApp "controls_conf"
     FILES qtquickcontrols2.conf
 )
 
+# Learning content (manifest + lesson texts), available in the app at :/content.
+file(GLOB_RECURSE CONTENT_FILES
+    RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+    CONFIGURE_DEPENDS
+    content/*.json
+    content/*/*.md
+)
+qt_add_resources(appEduApp "content"
+    PREFIX "/"
+    FILES ${CONTENT_FILES}
+)
+
 target_include_directories(appEduApp PRIVATE src)
 target_link_libraries(appEduApp PRIVATE Qt6::Quick Qt6::QuickControls2)
 

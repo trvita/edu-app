@@ -1,0 +1,20 @@
+{
+  "formatVersion": 1,
+  "modules": [
+    {
+      "id": "a",
+      "title": "Module A",
+      "lessons": [
+        { "id": "a-1", "title": "Lesson A1", "file": "a/lesson-1.md" },
+        { "id": "a-2", "title": "Lesson A2", "file": "a/lesson-2.md" }
+      ]
+    },
+    {
+      "id": "b",
+      "title": "Module B",
+      "lessons": [
+        { "id": "b-1", "title": "Lesson B1", "file": "b/missing.md" }
+      ]
+    }
+  ]
+}

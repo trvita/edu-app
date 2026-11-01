@@ -1,0 +1,68 @@
+{
+  "formatVersion": 1,
+  "modules": [
+    {
+      "id": "m1",
+      "title": "Module 1",
+      "lessons": [
+        {
+          "id": "m1-l1",
+          "title": "Lesson 1",
+          "file": "module-1/lesson-1.md"
+        },
+        {
+          "id": "m1-l2",
+          "title": "Lesson 2",
+          "file": "module-1/lesson-2.md"
+        },
+        {
+          "id": "m1-l3",
+          "title": "Lesson 3",
+          "file": "module-1/lesson-3.md"
+        }
+      ]
+    },
+    {
+      "id": "m2",
+      "title": "Module 2",
+      "lessons": [
+        {
+          "id": "m2-l1",
+          "title": "Lesson 1",
+          "file": "module-2/lesson-1.md"
+        },
+        {
+          "id": "m2-l2",
+          "title": "Lesson 2",
+          "file": "module-2/lesson-2.md"
+        },
+        {
+          "id": "m2-l3",
+          "title": "Lesson 3",
+          "file": "module-2/lesson-3.md"
+        }
+      ]
+    },
+    {
+      "id": "m3",
+      "title": "Module 3",
+      "lessons": [
+        {
+          "id": "m3-l1",
+          "title": "Lesson 1",
+          "file": "module-3/lesson-1.md"
+        },
+        {
+          "id": "m3-l2",
+          "title": "Lesson 2",
+          "file": "module-3/lesson-2.md"
+        },
+        {
+          "id": "m3-l3",
+          "title": "Lesson 3",
+          "file": "module-3/lesson-3.md"
+        }
+      ]
+    }
+  ]
+}

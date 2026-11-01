@@ -26,6 +26,7 @@ BasePage {
 
             AppText {
                 id: body
+                textFormat: Text.MarkdownText
                 wrapMode: Text.WordWrap
                 Layout.fillWidth: true
                 Layout.margins: Theme.margin

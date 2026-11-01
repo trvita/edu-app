@@ -8,6 +8,11 @@
 | Components | `qml/components/` | design | Reusable controls (buttons, etc.). Same rules as pages. |
 | Style | `qml/style/Theme.qml`, `qtquickcontrols2.conf`, `assets/` | design | `Theme` holds all colors, radii, shadows, spacing, sizes and fonts. Controls use the Basic style; components replace their `background`/`contentItem` using `Theme` values. Fonts and images go to `assets/`. |
 
+Learning content (`content/`: `manifest.json` + Markdown lessons) is data, not code; content
+authors edit only that folder (see `content/README.md`). `ContentRepository` loads it from the
+app resources (`:/content`); it can load any folder with the same layout, e.g. one downloaded
+from the server later.
+
 The contract between the two owners is each page's public properties and signals.
 Changing it touches both layers, so do it in one task, not in parallel.
 
