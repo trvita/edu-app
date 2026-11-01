@@ -14,6 +14,15 @@ ApplicationWindow {
         stack.pop()
     }
 
+    // Replaces the current page (lesson, quiz or result) with the next lesson.
+    // After the last lesson, returns to the modules list.
+    function goToNextLesson(moduleIndex, lessonIndex) {
+        if (ContentRepository.hasNextLesson(moduleIndex, lessonIndex))
+            stack.replace(lessonPage, { moduleIndex: moduleIndex, lessonIndex: lessonIndex + 1 })
+        else
+            stack.pop(stack.get(1))
+    }
+
     // Android back button/gesture arrives as the Back key.
     // On the start page the shortcut is disabled, so the system closes the app as usual.
     Shortcut {
@@ -66,14 +75,48 @@ ApplicationWindow {
             text: ContentRepository.lessonText(moduleIndex, lessonIndex)
             onBackRequested: goBack()
 
-            // Next lesson replaces this one, so "back" still returns to the lesson list.
-            // After the last lesson, return to the lesson list.
+            // Lesson, quiz and result replace each other, so "back" always returns to the lesson list.
             onNextRequested: {
-                if (ContentRepository.hasNextLesson(moduleIndex, lessonIndex))
-                    stack.replace(lessonPage, { moduleIndex: moduleIndex, lessonIndex: lessonIndex + 1 })
+                if (ContentRepository.hasQuiz(moduleIndex, lessonIndex))
+                    stack.replace(quizPage, { moduleIndex: moduleIndex, lessonIndex: lessonIndex })
                 else
-                    stack.pop(stack.get(1))
+                    goToNextLesson(moduleIndex, lessonIndex)
             }
+        }
+    }
+
+    Component {
+        id: quizPage
+
+        QuizPage {
+            property int moduleIndex
+            property int lessonIndex
+
+            title: qsTr("Quiz: %1").arg(ContentRepository.lessonTitle(moduleIndex, lessonIndex))
+            questions: ContentRepository.quizQuestions(moduleIndex, lessonIndex)
+            onBackRequested: goBack()
+            onSubmitted: answers => {
+                const result = ContentRepository.evaluateQuiz(moduleIndex, lessonIndex, answers)
+                stack.replace(quizResultPage, {
+                    moduleIndex: moduleIndex,
+                    lessonIndex: lessonIndex,
+                    percent: result.percent,
+                    mistakes: result.mistakes
+                })
+            }
+        }
+    }
+
+    Component {
+        id: quizResultPage
+
+        QuizResultPage {
+            property int moduleIndex
+            property int lessonIndex
+
+            title: qsTr("Result: %1").arg(ContentRepository.lessonTitle(moduleIndex, lessonIndex))
+            onBackRequested: goBack()
+            onContinueRequested: goToNextLesson(moduleIndex, lessonIndex)
         }
     }
 }

@@ -1,0 +1,24 @@
+{
+  "questions": [
+    {
+      "type": "multiple",
+      "text": "Which of these animals are mammals?",
+      "options": [
+        { "text": "Dog", "correct": true },
+        { "text": "Shark" },
+        { "text": "Cat", "correct": true },
+        { "text": "Eagle" }
+      ]
+    },
+    {
+      "type": "multiple",
+      "text": "Which of these are programming languages?",
+      "options": [
+        { "text": "C++", "correct": true },
+        { "text": "Python", "correct": true },
+        { "text": "Excel" },
+        { "text": "JavaScript", "correct": true }
+      ]
+    }
+  ]
+}

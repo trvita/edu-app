@@ -1,0 +1,14 @@
+{
+  "questions": [
+    {
+      "type": "multiple",
+      "text": "Which of these numbers are prime?",
+      "options": [
+        { "text": "4" },
+        { "text": "6" },
+        { "text": "7", "correct": true },
+        { "text": "9" }
+      ]
+    }
+  ]
+}

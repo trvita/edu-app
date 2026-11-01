@@ -1,0 +1,32 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "text": "What is the capital of France?",
+      "options": [
+        { "text": "Paris", "correct": true },
+        { "text": "Rome" },
+        { "text": "Berlin" }
+      ]
+    },
+    {
+      "type": "single",
+      "text": "How many hours are in a day?",
+      "options": [
+        { "text": "12" },
+        { "text": "24", "correct": true },
+        { "text": "48" }
+      ]
+    },
+    {
+      "type": "multiple",
+      "text": "Which of these are seasons?",
+      "options": [
+        { "text": "Winter", "correct": true },
+        { "text": "Monday" },
+        { "text": "Summer", "correct": true },
+        { "text": "March" }
+      ]
+    }
+  ]
+}

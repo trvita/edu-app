@@ -1,0 +1,12 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "text": "Single question with two correct options",
+      "options": [
+        { "text": "A", "correct": true },
+        { "text": "B", "correct": true }
+      ]
+    }
+  ]
+}

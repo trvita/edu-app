@@ -13,6 +13,8 @@ QtObject {
     readonly property color textPrimary: "#1F2937"
     readonly property color textSecondary: "#6B7280"
     readonly property color disabled: "#C7C7D1"
+    readonly property color success: "#15803D"
+    readonly property color error: "#B91C1C"
 
     // Shape
     readonly property int radius: 12
@@ -40,4 +42,6 @@ QtObject {
     readonly property int fontSizeBody: 16
     readonly property int fontSizeTitle: 20
     readonly property int fontSizeButton: 16
+    readonly property int fontSizeSmall: 14
+    readonly property int fontSizeScore: 48
 }

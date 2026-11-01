@@ -1,0 +1,15 @@
+{
+  "questions": [
+    {
+      "type": "multiple",
+      "text": "Which of these numbers are even?",
+      "options": [
+        { "text": "1" },
+        { "text": "2", "correct": true },
+        { "text": "3" },
+        { "text": "4", "correct": true },
+        { "text": "6", "correct": true }
+      ]
+    }
+  ]
+}

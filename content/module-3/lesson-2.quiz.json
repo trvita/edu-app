@@ -1,0 +1,39 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "text": "What is 1 + 1?",
+      "options": [
+        { "text": "2", "correct": true },
+        { "text": "3" }
+      ]
+    },
+    {
+      "type": "single",
+      "text": "At what temperature (°C) does water freeze?",
+      "options": [
+        { "text": "0", "correct": true },
+        { "text": "50" },
+        { "text": "100" }
+      ]
+    },
+    {
+      "type": "single",
+      "text": "How many legs does a spider have?",
+      "options": [
+        { "text": "6" },
+        { "text": "8", "correct": true },
+        { "text": "10" }
+      ]
+    },
+    {
+      "type": "single",
+      "text": "Which is the largest ocean?",
+      "options": [
+        { "text": "Atlantic" },
+        { "text": "Pacific", "correct": true },
+        { "text": "Indian" }
+      ]
+    }
+  ]
+}

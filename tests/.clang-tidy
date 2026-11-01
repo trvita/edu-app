@@ -1,4 +1,9 @@
-# Qt Test runs test cases as slots on the test object, so they cannot be static.
+# Qt Test conventions:
+# - test cases run as slots on the test object, so they cannot be static;
+# - data functions must be named <test>_data;
+# - QFETCH declares non-const variables.
 ---
 InheritParentConfig: true
-Checks: -readability-convert-member-functions-to-static
+Checks: -readability-convert-member-functions-to-static,-misc-const-correctness
+CheckOptions:
+  - { key: readability-identifier-naming.MethodIgnoredRegexp, value: '^[a-z][a-zA-Z0-9]*_data$' }

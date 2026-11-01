@@ -1,0 +1,21 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "text": "Single question",
+      "options": [
+        { "text": "Wrong" },
+        { "text": "Right", "correct": true }
+      ]
+    },
+    {
+      "type": "multiple",
+      "text": "Multiple question",
+      "options": [
+        { "text": "Yes 1", "correct": true },
+        { "text": "No" },
+        { "text": "Yes 2", "correct": true }
+      ]
+    }
+  ]
+}

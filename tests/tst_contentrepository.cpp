@@ -2,7 +2,8 @@
 
 #include "ContentRepository.h"
 
-// Fixture: tests/data/content (module A: two lessons, module B: one lesson with a missing file).
+// Fixture: tests/data/content (module A: two lessons, the first with a valid quiz, the second
+// with an invalid one; module B: one lesson with a missing file and no quiz).
 // The real app content in content/ is checked too, so broken edits fail the tests.
 class TestContentRepository : public QObject
 {
@@ -65,6 +66,49 @@ private slots:
         QVERIFY(!repo.hasNextLesson(99, 0));
     }
 
+    void loadsQuizWithoutExposingAnswers()
+    {
+        const ContentRepository repo(fixtureRoot());
+        QVERIFY(repo.hasQuiz(0, 0));
+
+        const QVariantList questions = repo.quizQuestions(0, 0);
+        QCOMPARE(questions.size(), 2);
+        const QVariantMap multiple = questions[1].toMap();
+        QCOMPARE(multiple.value("text").toString(), QString("Multiple question"));
+        QCOMPARE(multiple.value("multiple").toBool(), true);
+        QCOMPARE(multiple.value("options").toStringList(), QStringList({"Yes 1", "No", "Yes 2"}));
+        QCOMPARE(multiple.keys(), QStringList({"multiple", "options", "text"}));
+    }
+
+    void invalidOrMissingQuizMeansNoQuiz()
+    {
+        QTest::ignoreMessage(QtWarningMsg,
+                             QRegularExpression("Invalid quiz .*invalid\\.quiz\\.json.*exactly 1"));
+        const ContentRepository repo(fixtureRoot());
+        QVERIFY(!repo.hasQuiz(0, 1)); // invalid file
+        QVERIFY(!repo.hasQuiz(1, 0)); // no quiz in manifest
+        QVERIFY(repo.quizQuestions(1, 0).isEmpty());
+    }
+
+    void evaluateQuizReturnsScoreAndMistakes()
+    {
+        const ContentRepository repo(fixtureRoot());
+        // single: correct (1); multiple: "Yes 1" + "No" -> 0.5 - 0.5 - 0.5 -> 0. Total 1 of 2.
+        const QVariantMap result = repo.evaluateQuiz(0, 0, {QVariantList{1}, QVariantList{0, 1}});
+        QCOMPARE(result.value("score").toInt(), 1);
+        QCOMPARE(result.value("maxScore").toInt(), 2);
+        QCOMPARE(result.value("points").toDouble(), 1.0);
+        QCOMPARE(result.value("maxPoints").toDouble(), 2.0);
+        QCOMPARE(result.value("percent").toInt(), 50);
+
+        const QVariantList mistakes = result.value("mistakes").toList();
+        QCOMPARE(mistakes.size(), 1);
+        const QVariantMap mistake = mistakes[0].toMap();
+        QCOMPARE(mistake.value("question").toString(), QString("Multiple question"));
+        QCOMPARE(mistake.value("yourAnswers").toStringList(), QStringList({"Yes 1", "No"}));
+        QCOMPARE(mistake.value("correctAnswers").toStringList(), QStringList({"Yes 1", "Yes 2"}));
+    }
+
     void appContentIsComplete()
     {
         const ContentRepository repo(QFINDTESTDATA("../content"));
@@ -76,6 +120,9 @@ private slots:
             for (int l = 0; l < lessons.size(); ++l) {
                 QVERIFY2(!repo.lessonText(m, l).isEmpty(),
                          qPrintable(QString("module %1 lesson %2 has no text").arg(m).arg(l)));
+                QVERIFY2(
+                    repo.hasQuiz(m, l),
+                    qPrintable(QString("module %1 lesson %2 has no valid quiz").arg(m).arg(l)));
             }
         }
     }

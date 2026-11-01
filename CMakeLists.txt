@@ -28,18 +28,24 @@ qt_add_qml_module(appEduApp
     SOURCES
         src/ContentRepository.h
         src/ContentRepository.cpp
+        src/Quiz.h
+        src/Quiz.cpp
     QML_FILES
         qml/Main.qml
         qml/style/Theme.qml
         qml/components/AppText.qml
         qml/components/BackButton.qml
+        qml/components/Card.qml
         qml/components/ListItem.qml
         qml/components/PageHeader.qml
         qml/components/PrimaryButton.qml
+        qml/components/QuestionCard.qml
         qml/pages/BasePage.qml
         qml/pages/StartPage.qml
         qml/pages/ListPage.qml
         qml/pages/LessonPage.qml
+        qml/pages/QuizPage.qml
+        qml/pages/QuizResultPage.qml
 )
 
 # Selects the Qt Quick Controls style at startup (must be at :/qtquickcontrols2.conf).
@@ -75,8 +81,17 @@ if(NOT ANDROID)
     qt_add_executable(tst_contentrepository
         tests/tst_contentrepository.cpp
         src/ContentRepository.cpp
+        src/Quiz.cpp
     )
     target_include_directories(tst_contentrepository PRIVATE src)
     target_link_libraries(tst_contentrepository PRIVATE Qt6::Qml Qt6::Test)
     add_test(NAME tst_contentrepository COMMAND tst_contentrepository)
+
+    qt_add_executable(tst_quiz
+        tests/tst_quiz.cpp
+        src/Quiz.cpp
+    )
+    target_include_directories(tst_quiz PRIVATE src)
+    target_link_libraries(tst_quiz PRIVATE Qt6::Core Qt6::Test)
+    add_test(NAME tst_quiz COMMAND tst_quiz)
 endif()

@@ -1,0 +1,13 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "text": "What is 2 + 2?",
+      "options": [
+        { "text": "3" },
+        { "text": "4", "correct": true },
+        { "text": "5" }
+      ]
+    }
+  ]
+}

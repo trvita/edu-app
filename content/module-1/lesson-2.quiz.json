@@ -1,0 +1,22 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "text": "What colour is the sky on a clear day?",
+      "options": [
+        { "text": "Green" },
+        { "text": "Blue", "correct": true },
+        { "text": "Red" }
+      ]
+    },
+    {
+      "type": "single",
+      "text": "How many days are in a week?",
+      "options": [
+        { "text": "5" },
+        { "text": "7", "correct": true },
+        { "text": "10" }
+      ]
+    }
+  ]
+}

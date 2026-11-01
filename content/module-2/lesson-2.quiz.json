@@ -1,0 +1,23 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "text": "What is 3 × 3?",
+      "options": [
+        { "text": "6" },
+        { "text": "9", "correct": true },
+        { "text": "12" }
+      ]
+    },
+    {
+      "type": "multiple",
+      "text": "Which of these are colours?",
+      "options": [
+        { "text": "Red", "correct": true },
+        { "text": "Table" },
+        { "text": "Blue", "correct": true },
+        { "text": "Chair" }
+      ]
+    }
+  ]
+}

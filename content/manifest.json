@@ -8,17 +8,20 @@
         {
           "id": "m1-l1",
           "title": "Lesson 1",
-          "file": "module-1/lesson-1.md"
+          "file": "module-1/lesson-1.md",
+          "quiz": "module-1/lesson-1.quiz.json"
         },
         {
           "id": "m1-l2",
           "title": "Lesson 2",
-          "file": "module-1/lesson-2.md"
+          "file": "module-1/lesson-2.md",
+          "quiz": "module-1/lesson-2.quiz.json"
         },
         {
           "id": "m1-l3",
           "title": "Lesson 3",
-          "file": "module-1/lesson-3.md"
+          "file": "module-1/lesson-3.md",
+          "quiz": "module-1/lesson-3.quiz.json"
         }
       ]
     },
@@ -29,17 +32,20 @@
         {
           "id": "m2-l1",
           "title": "Lesson 1",
-          "file": "module-2/lesson-1.md"
+          "file": "module-2/lesson-1.md",
+          "quiz": "module-2/lesson-1.quiz.json"
         },
         {
           "id": "m2-l2",
           "title": "Lesson 2",
-          "file": "module-2/lesson-2.md"
+          "file": "module-2/lesson-2.md",
+          "quiz": "module-2/lesson-2.quiz.json"
         },
         {
           "id": "m2-l3",
           "title": "Lesson 3",
-          "file": "module-2/lesson-3.md"
+          "file": "module-2/lesson-3.md",
+          "quiz": "module-2/lesson-3.quiz.json"
         }
       ]
     },
@@ -50,17 +56,20 @@
         {
           "id": "m3-l1",
           "title": "Lesson 1",
-          "file": "module-3/lesson-1.md"
+          "file": "module-3/lesson-1.md",
+          "quiz": "module-3/lesson-1.quiz.json"
         },
         {
           "id": "m3-l2",
           "title": "Lesson 2",
-          "file": "module-3/lesson-2.md"
+          "file": "module-3/lesson-2.md",
+          "quiz": "module-3/lesson-2.quiz.json"
         },
         {
           "id": "m3-l3",
           "title": "Lesson 3",
-          "file": "module-3/lesson-3.md"
+          "file": "module-3/lesson-3.md",
+          "quiz": "module-3/lesson-3.quiz.json"
         }
       ]
     }

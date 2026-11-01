@@ -1,0 +1,31 @@
+{
+  "questions": [
+    {
+      "type": "single",
+      "text": "Which planet do we live on?",
+      "options": [
+        { "text": "Mars" },
+        { "text": "Earth", "correct": true },
+        { "text": "Venus" }
+      ]
+    },
+    {
+      "type": "single",
+      "text": "What is 10 / 2?",
+      "options": [
+        { "text": "2" },
+        { "text": "5", "correct": true },
+        { "text": "20" }
+      ]
+    },
+    {
+      "type": "single",
+      "text": "Which of these is a fruit?",
+      "options": [
+        { "text": "Carrot" },
+        { "text": "Apple", "correct": true },
+        { "text": "Potato" }
+      ]
+    }
+  ]
+}
