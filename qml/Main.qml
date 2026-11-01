@@ -72,7 +72,7 @@ ApplicationWindow {
                 if (ContentRepository.hasNextLesson(moduleIndex, lessonIndex))
                     stack.replace(lessonPage, { moduleIndex: moduleIndex, lessonIndex: lessonIndex + 1 })
                 else
-                    goBack()
+                    stack.pop(stack.get(1))
             }
         }
     }
