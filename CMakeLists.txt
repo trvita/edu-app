@@ -28,18 +28,27 @@ qt_add_qml_module(appEduApp
     SOURCES
         src/ContentRepository.h
         src/ContentRepository.cpp
+        src/LearningService.h
+        src/LearningService.cpp
+        src/ProgressTracker.h
+        src/ProgressTracker.cpp
         src/Quiz.h
         src/Quiz.cpp
+        src/Wallet.h
+        src/Wallet.cpp
     QML_FILES
         qml/Main.qml
         qml/style/Theme.qml
         qml/components/AppText.qml
         qml/components/BackButton.qml
         qml/components/Card.qml
+        qml/components/CoinBalance.qml
         qml/components/ListItem.qml
         qml/components/PageHeader.qml
         qml/components/PrimaryButton.qml
         qml/components/QuestionCard.qml
+        qml/components/SecondaryButton.qml
+        qml/components/Toast.qml
         qml/pages/BasePage.qml
         qml/pages/StartPage.qml
         qml/pages/ListPage.qml
@@ -94,4 +103,32 @@ if(NOT ANDROID)
     target_include_directories(tst_quiz PRIVATE src)
     target_link_libraries(tst_quiz PRIVATE Qt6::Core Qt6::Test)
     add_test(NAME tst_quiz COMMAND tst_quiz)
+
+    qt_add_executable(tst_progresstracker
+        tests/tst_progresstracker.cpp
+        src/ProgressTracker.cpp
+    )
+    target_include_directories(tst_progresstracker PRIVATE src)
+    target_link_libraries(tst_progresstracker PRIVATE Qt6::Qml Qt6::Test)
+    add_test(NAME tst_progresstracker COMMAND tst_progresstracker)
+
+    qt_add_executable(tst_wallet
+        tests/tst_wallet.cpp
+        src/Wallet.cpp
+    )
+    target_include_directories(tst_wallet PRIVATE src)
+    target_link_libraries(tst_wallet PRIVATE Qt6::Qml Qt6::Test)
+    add_test(NAME tst_wallet COMMAND tst_wallet)
+
+    qt_add_executable(tst_learningservice
+        tests/tst_learningservice.cpp
+        src/LearningService.cpp
+        src/ContentRepository.cpp
+        src/ProgressTracker.cpp
+        src/Quiz.cpp
+        src/Wallet.cpp
+    )
+    target_include_directories(tst_learningservice PRIVATE src)
+    target_link_libraries(tst_learningservice PRIVATE Qt6::Qml Qt6::Test)
+    add_test(NAME tst_learningservice COMMAND tst_learningservice)
 endif()

@@ -13,6 +13,12 @@ authors edit only that folder (see `content/README.md`). `ContentRepository` loa
 app resources (`:/content`); it can load any folder with the same layout, e.g. one downloaded
 from the server later.
 
+Learner state (progress, quiz attempts, coins) changes only through `LearningService`, which
+saves everything to one local file (`state.json` in the app data folder) after each change.
+App-wide values that every page shows (the coin balance) are properties of the
+`ApplicationWindow` in `Main.qml`; `BasePage` reads them via `ApplicationWindow.window`, so pages
+still don't use logic singletons.
+
 The contract between the two owners is each page's public properties and signals.
 Changing it touches both layers, so do it in one task, not in parallel.
 

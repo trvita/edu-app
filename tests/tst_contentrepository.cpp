@@ -100,6 +100,7 @@ private slots:
         QCOMPARE(result.value("points").toDouble(), 1.0);
         QCOMPARE(result.value("maxPoints").toDouble(), 2.0);
         QCOMPARE(result.value("percent").toInt(), 50);
+        QCOMPARE(result.value("passed").toBool(), false);
 
         const QVariantList mistakes = result.value("mistakes").toList();
         QCOMPARE(mistakes.size(), 1);
@@ -123,6 +124,20 @@ private slots:
                 QVERIFY2(
                     repo.hasQuiz(m, l),
                     qPrintable(QString("module %1 lesson %2 has no valid quiz").arg(m).arg(l)));
+            }
+        }
+    }
+
+    void appContentLessonIdsAreUniqueAndSet()
+    {
+        const ContentRepository repo(QFINDTESTDATA("../content"));
+        QSet<QString> seen;
+        const QList<QStringList> ids = repo.lessonIdsPerModule();
+        for (const QStringList &moduleIds : ids) {
+            for (const QString &id : moduleIds) {
+                QVERIFY2(!id.isEmpty(), "a lesson has no id");
+                QVERIFY2(!seen.contains(id), qPrintable(QString("duplicate lesson id %1").arg(id)));
+                seen.insert(id);
             }
         }
     }

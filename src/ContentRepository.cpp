@@ -124,7 +124,8 @@ bool ContentRepository::load(const QString &contentRoot)
                 QString::fromUtf8(readFile(root.filePath(file)).value_or(QByteArray()));
             const QString quizFile = lessonObject.value(QStringLiteral("quiz")).toString();
             module.lessons.append(
-                {lessonObject.value(QStringLiteral("title")).toString(), text,
+                {lessonObject.value(QStringLiteral("id")).toString(),
+                 lessonObject.value(QStringLiteral("title")).toString(), text,
                  quizFile.isEmpty() ? quiz::Quiz() : readQuiz(root.filePath(quizFile))});
         }
         m_modules.append(module);
@@ -145,6 +146,25 @@ QString ContentRepository::moduleTitle(int moduleIndex) const
 {
     const Module *m = module(moduleIndex);
     return m ? m->title : QString();
+}
+
+QString ContentRepository::lessonId(int moduleIndex, int lessonIndex) const
+{
+    const Lesson *l = lesson(moduleIndex, lessonIndex);
+    return l ? l->id : QString();
+}
+
+QList<QStringList> ContentRepository::lessonIdsPerModule() const
+{
+    QList<QStringList> result;
+    for (const Module &module : m_modules) {
+        QStringList ids;
+        for (const Lesson &lesson : module.lessons) {
+            ids << lesson.id;
+        }
+        result.append(ids);
+    }
+    return result;
 }
 
 QStringList ContentRepository::lessonTitles(int moduleIndex) const
@@ -227,6 +247,7 @@ QVariantMap ContentRepository::evaluateQuiz(int moduleIndex, int lessonIndex,
         {QStringLiteral("points"), result.halfPoints / 2.0},
         {QStringLiteral("maxPoints"), result.maxHalfPoints / 2.0},
         {QStringLiteral("percent"), result.percent()},
+        {QStringLiteral("passed"), result.passed()},
         {QStringLiteral("mistakes"), mistakes},
     };
 }

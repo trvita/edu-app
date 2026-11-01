@@ -4,15 +4,21 @@ import QtQuick.Layouts
 import EduApp
 
 // Quiz result as a percentage of the maximum points, and the correct answers for every
-// question answered incorrectly.
+// question answered incorrectly. Passed: "Retake test" + "Next";
+// not passed: "Retake test" + "Back to the lesson".
 BasePage {
     id: page
 
     property int percent
+    property bool passed
+    property bool firstAttempt
+    property int coinsEarned
     // [{ question, yourAnswers: [string], correctAnswers: [string] }]
     property var mistakes: []
 
-    signal continueRequested()
+    signal retakeRequested()
+    signal nextRequested()
+    signal backToLessonRequested()
 
     Flickable {
         id: flick
@@ -36,9 +42,33 @@ BasePage {
 
             AppText {
                 text: qsTr("%1%").arg(page.percent)
+                color: page.passed ? Theme.success : Theme.error
                 font.pixelSize: Theme.fontSizeScore
                 font.bold: true
                 Layout.alignment: Qt.AlignHCenter
+            }
+
+            AppText {
+                text: page.passed ? qsTr("Test passed, the next lesson is unlocked")
+                                  : qsTr("Test not passed: you need at least 67%")
+                color: Theme.textSecondary
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.margin
+                Layout.rightMargin: Theme.margin
+            }
+
+            AppText {
+                text: !page.firstAttempt ? qsTr("Coins are given only for the first attempt")
+                    : page.coinsEarned > 0 ? qsTr("You earned 🟡 %1").arg(page.coinsEarned)
+                    : qsTr("No coins earned this time")
+                font.bold: page.firstAttempt && page.coinsEarned > 0
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.margin
+                Layout.rightMargin: Theme.margin
             }
 
             AppText {
@@ -84,11 +114,21 @@ BasePage {
             }
 
             PrimaryButton {
-                text: qsTr("Continue")
-                Layout.alignment: Qt.AlignHCenter
+                text: page.passed ? qsTr("Next") : qsTr("Back to the lesson")
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.margin
+                Layout.rightMargin: Theme.margin
                 Layout.topMargin: Theme.margin
+                onClicked: page.passed ? page.nextRequested() : page.backToLessonRequested()
+            }
+
+            SecondaryButton {
+                text: qsTr("Retake test")
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.margin
+                Layout.rightMargin: Theme.margin
                 Layout.bottomMargin: Theme.margin
-                onClicked: page.continueRequested()
+                onClicked: page.retakeRequested()
             }
         }
     }

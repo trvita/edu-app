@@ -8,8 +8,19 @@ Page {
     id: page
 
     property bool showBack: true
+    // App-wide coin balance, provided by the window (Main.qml) so pages stay free of logic.
+    readonly property int coins: ApplicationWindow.window?.coins ?? 0
 
     signal backRequested()
+
+    // Shows a short message on top of the page.
+    function showMessage(message) {
+        toast.show(message)
+    }
+
+    Toast {
+        id: toast
+    }
 
     background: Rectangle {
         color: Theme.background
@@ -18,6 +29,7 @@ Page {
     header: PageHeader {
         title: page.title
         showBack: page.showBack
+        coins: page.coins
         onBackRequested: page.backRequested()
     }
 }

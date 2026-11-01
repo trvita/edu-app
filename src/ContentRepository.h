@@ -40,18 +40,23 @@ public:
     Q_INVOKABLE QString lessonText(int moduleIndex, int lessonIndex) const;
     Q_INVOKABLE bool hasNextLesson(int moduleIndex, int lessonIndex) const;
 
+    // Stable lesson ids from the manifest; progress is stored by them.
+    QString lessonId(int moduleIndex, int lessonIndex) const;
+    QList<QStringList> lessonIdsPerModule() const;
+
     Q_INVOKABLE bool hasQuiz(int moduleIndex, int lessonIndex) const;
     // Questions without correct answers: [{ text, multiple, options: [string] }].
     Q_INVOKABLE QVariantList quizQuestions(int moduleIndex, int lessonIndex) const;
     // answers: selected option indices per question, e.g. [[1], [0, 2]].
-    // Returns { score, maxScore, points, maxPoints, percent,
+    // Returns { score, maxScore, points, maxPoints, percent, passed,
     //           mistakes: [{ question, yourAnswers: [string], correctAnswers: [string] }] }.
-    Q_INVOKABLE QVariantMap evaluateQuiz(int moduleIndex, int lessonIndex,
-                                         const QVariantList &answers) const;
+    // Not for QML: quizzes are submitted through LearningService, which applies rewards.
+    QVariantMap evaluateQuiz(int moduleIndex, int lessonIndex, const QVariantList &answers) const;
 
 private:
     struct Lesson
     {
+        QString id;
         QString title;
         QString text;
         quiz::Quiz quiz; // empty if the lesson has no quiz

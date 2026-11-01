@@ -4,12 +4,13 @@ import QtQuick.Effects
 import QtQuick.Layouts
 import EduApp
 
-// Top bar of a page: optional back arrow and the title.
+// Top bar of a page: optional back arrow, the title and the coin balance on the right.
 ToolBar {
     id: control
 
     property string title
     property bool showBack: true
+    property int coins
 
     signal backRequested()
 
@@ -41,6 +42,11 @@ ToolBar {
             elide: Text.ElideRight
             Layout.fillWidth: true
             Layout.leftMargin: control.showBack ? 0 : Theme.margin
+        }
+
+        CoinBalance {
+            amount: control.coins
+            Layout.rightMargin: Theme.margin
         }
     }
 }

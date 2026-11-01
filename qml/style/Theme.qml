@@ -13,6 +13,9 @@ QtObject {
     readonly property color textPrimary: "#1F2937"
     readonly property color textSecondary: "#6B7280"
     readonly property color disabled: "#C7C7D1"
+    readonly property color locked: "#E2E2EA"
+    readonly property color textLocked: "#9CA3AF"
+    readonly property color toastBackground: "#E61F2937"
     readonly property color success: "#15803D"
     readonly property color error: "#B91C1C"
 
