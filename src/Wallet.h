@@ -37,6 +37,8 @@ public:
     bool credit(const QString &key, int amount, const QString &reason,
                 const QDateTime &now = QDateTime::currentDateTimeUtc());
     bool hasTransaction(const QString &key) const;
+    // Removes every transaction; the balance becomes 0 (progress reset).
+    void reset();
 
     QJsonObject toJson() const;
     void fromJson(const QJsonObject &json);

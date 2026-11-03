@@ -6,12 +6,15 @@ import EduApp
 Button {
     id: control
 
+    // Text and border color; Theme.error for destructive actions ("Reset progress").
+    property color accent: Theme.primary
+
     leftPadding: Theme.margin * 2
     rightPadding: Theme.margin * 2
 
     contentItem: AppText {
         text: control.text
-        color: Theme.primary
+        color: control.accent
         font.pixelSize: Theme.fontSizeButton
         font.bold: true
         horizontalAlignment: Text.AlignHCenter
@@ -22,7 +25,7 @@ Button {
         implicitHeight: Theme.buttonHeight
         radius: Theme.radius
         color: control.down ? Theme.surfacePressed : Theme.surface
-        border.color: Theme.primary
+        border.color: control.accent
         border.width: 2
     }
 }

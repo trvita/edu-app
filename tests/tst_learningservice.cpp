@@ -95,6 +95,27 @@ private slots:
         QCOMPARE(service.wallet()->balance(), 2);
     }
 
+    void resetErasesProgressAndCoinsAndIsSaved()
+    {
+        {
+            LearningService service(&m_content, statePath());
+            service.claimDailyReward(QDate(2026, 11, 2));
+            service.submitQuiz(0, 0, perfectAnswers());
+            service.resetProgress();
+            QCOMPARE(service.wallet()->balance(), 0);
+            QVERIFY(!service.progress()->isLessonUnlocked(0, 1));
+        }
+        LearningService restarted(&m_content, statePath());
+        QCOMPARE(restarted.wallet()->balance(), 0);
+        QVERIFY(!restarted.progress()->isLessonCompleted(0, 0));
+        QCOMPARE(restarted.progress()->attempts().size(), 0);
+
+        // After a reset the next attempt is a first attempt again.
+        const QVariantMap result = restarted.submitQuiz(0, 0, perfectAnswers());
+        QCOMPARE(result.value("firstAttempt").toBool(), true);
+        QCOMPARE(restarted.wallet()->balance(), 7);
+    }
+
     void corruptStateFileStartsFreshAndKeepsBackup()
     {
         {

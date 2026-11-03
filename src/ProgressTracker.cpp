@@ -98,6 +98,13 @@ QJsonObject ProgressTracker::toJson() const
     };
 }
 
+void ProgressTracker::reset()
+{
+    m_completed.clear();
+    m_attempts.clear();
+    emit progressChanged();
+}
+
 void ProgressTracker::fromJson(const QJsonObject &json)
 {
     m_completed.clear();

@@ -120,6 +120,13 @@ void LearningService::completeLessonWithoutQuiz(int moduleIndex, int lessonIndex
     save();
 }
 
+void LearningService::resetProgress()
+{
+    m_progress->reset();
+    m_wallet->reset();
+    save();
+}
+
 void LearningService::load()
 {
     QFile file(m_statePath);

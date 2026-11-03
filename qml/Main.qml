@@ -41,6 +41,19 @@ ApplicationWindow {
 
         initialItem: StartPage {
             onStartRequested: stack.push(modulesPage)
+            onSettingsRequested: stack.push(settingsPage)
+        }
+    }
+
+    Component {
+        id: settingsPage
+
+        SettingsPage {
+            onBackRequested: goBack()
+            onResetConfirmed: {
+                LearningService.resetProgress()
+                showMessage(qsTr("Progress has been reset"))
+            }
         }
     }
 

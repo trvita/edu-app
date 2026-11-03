@@ -114,6 +114,21 @@ private slots:
         QCOMPARE(restored.attempts()[0].submittedAt, time);
     }
 
+    void resetLocksEverythingExceptFirstLessonAgain()
+    {
+        ProgressTracker progress(course());
+        progress.completeLesson(0, 0);
+        progress.completeLesson(0, 1);
+        progress.recordAttempt({"a1", 2, 100, true, QDateTime::currentDateTimeUtc()});
+        const QSignalSpy spy(&progress, &ProgressTracker::progressChanged);
+        progress.reset();
+        QCOMPARE(spy.count(), 1);
+        QVERIFY(!progress.isLessonCompleted(0, 0));
+        QVERIFY(!progress.isLessonUnlocked(0, 1));
+        QVERIFY(!progress.isModuleUnlocked(1));
+        QVERIFY(!progress.hasAttempts("a1"));
+    }
+
     void progressFollowsLessonIdsWhenContentIsReordered()
     {
         ProgressTracker original(course());

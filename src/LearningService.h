@@ -57,6 +57,9 @@ public:
                                        const QVariantList &answers);
     // For lessons without a quiz: completes the lesson after reading.
     Q_INVOKABLE void completeLessonWithoutQuiz(int moduleIndex, int lessonIndex);
+    // Erases all progress, quiz attempts and coins, as on the first start. Quiz rewards can be
+    // earned again afterwards; today's login reward is granted again on the next app start.
+    Q_INVOKABLE void resetProgress();
 
 private:
     void load();

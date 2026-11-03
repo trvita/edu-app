@@ -15,7 +15,7 @@
 //   lesson completed;
 // - the first module is unlocked, every next one needs all lessons of the previous module
 //   completed.
-// Completion is never undone. Progress is stored by lesson id, so it survives content
+// Completion is undone only by reset(). Progress is stored by lesson id, so it survives content
 // reordering. Also keeps the history of quiz attempts.
 class ProgressTracker : public QObject
 {
@@ -54,6 +54,9 @@ public:
     bool hasAttempts(const QString &lessonId) const;
     void recordAttempt(const Attempt &attempt);
     QList<Attempt> attempts() const { return m_attempts; }
+
+    // Forgets all completed lessons and attempts: back to the first start.
+    void reset();
 
     QJsonObject toJson() const;
     void fromJson(const QJsonObject &json);

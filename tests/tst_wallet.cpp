@@ -57,6 +57,18 @@ private slots:
         QVERIFY(!restored.credit("quiz:a", 2, "quiz"));
     }
 
+    void resetClearsBalanceAndFreesKeys()
+    {
+        Wallet wallet;
+        wallet.credit("quiz:a", 2, "quiz");
+        const QSignalSpy spy(&wallet, &Wallet::balanceChanged);
+        wallet.reset();
+        QCOMPARE(spy.count(), 1);
+        QCOMPARE(wallet.balance(), 0);
+        QVERIFY(wallet.transactions().isEmpty());
+        QVERIFY(wallet.credit("quiz:a", 2, "quiz"));
+    }
+
     void invalidSavedEntriesAreSkipped()
     {
         const QJsonObject json{

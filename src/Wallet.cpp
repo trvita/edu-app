@@ -39,6 +39,13 @@ QJsonObject Wallet::toJson() const
     return {{QStringLiteral("transactions"), transactions}};
 }
 
+void Wallet::reset()
+{
+    m_transactions.clear();
+    m_balance = 0;
+    emit balanceChanged();
+}
+
 void Wallet::fromJson(const QJsonObject &json)
 {
     m_transactions.clear();

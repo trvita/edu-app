@@ -43,6 +43,7 @@ qt_add_qml_module(appEduApp
         qml/components/BackButton.qml
         qml/components/Card.qml
         qml/components/CoinBalance.qml
+        qml/components/ConfirmDialog.qml
         qml/components/ListItem.qml
         qml/components/PageHeader.qml
         qml/components/PrimaryButton.qml
@@ -55,6 +56,7 @@ qt_add_qml_module(appEduApp
         qml/pages/LessonPage.qml
         qml/pages/QuizPage.qml
         qml/pages/QuizResultPage.qml
+        qml/pages/SettingsPage.qml
 )
 
 # Selects the Qt Quick Controls style at startup (must be at :/qtquickcontrols2.conf).
